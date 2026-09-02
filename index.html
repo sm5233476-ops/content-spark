@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Content Spark — video ideas, on file</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #EDE7D8;
+    --folder: #DED0A8;
+    --ink: #201F1B;
+    --ink-soft: #55524A;
+    --stamp: #A5342A;
+    --stamp-dark: #7C2620;
+    --line: #C7BA92;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+  }
+
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 24px 96px;
+  }
+
+  header { margin-bottom: 40px; }
+
+  .wordmark {
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: clamp(28px, 6vw, 40px);
+    letter-spacing: -0.5px;
+    margin: 0;
+  }
+
+  .wordmark span { color: var(--stamp); }
+
+  .tagline {
+    margin: 10px 0 0;
+    max-width: 46ch;
+    color: var(--ink-soft);
+    font-size: 16px;
+  }
+
+  form {
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    padding: 28px 0;
+    margin-bottom: 40px;
+  }
+
+  .field { margin-bottom: 20px; }
+
+  label {
+    display: block;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+
+  input[type="text"], select {
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    padding: 10px 2px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--line);
+    color: var(--ink);
+  }
+
+  input[type="text"]:focus, select:focus {
+    outline: none;
+    border-bottom-color: var(--stamp);
+  }
+
+  .row { display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-end; }
+  .row .field { flex: 1; min-width: 160px; margin-bottom: 0; }
+
+  button[type="submit"] {
+    margin-top: 24px;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--paper);
+    background: var(--stamp);
+    border: none;
+    padding: 14px 28px;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+
+  button[type="submit"]:hover:not(:disabled) {
+    background: var(--stamp-dark);
+    transform: rotate(-1deg);
+  }
+
+  button[type="submit"]:disabled { background: var(--ink-soft); cursor: default; }
+
+  .status {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    color: var(--ink-soft);
+    min-height: 20px;
+    margin-bottom: 24px;
+  }
+
+  .status.error { color: var(--stamp); }
+
+  .empty {
+    border: 2px dashed var(--line);
+    padding: 40px 24px;
+    text-align: center;
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+
+  .results { display: grid; gap: 28px; }
+
+  .card {
+    background: var(--folder);
+    padding: 24px 24px 20px;
+    position: relative;
+    border: 1px solid var(--line);
+  }
+
+  .card:nth-child(3n+1) { transform: rotate(-0.4deg); }
+  .card:nth-child(3n+2) { transform: rotate(0.3deg); }
+  .card:nth-child(3n)   { transform: rotate(-0.2deg); }
+
+  .card::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0;
+    width: 0; height: 0;
+    border-style: solid;
+    border-width: 0 22px 22px 0;
+    border-color: transparent var(--paper) transparent transparent;
+  }
+
+  .file-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+
+  .card h2 { font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 600; margin: 0 0 10px; }
+
+  .hook {
+    display: inline-block;
+    background: var(--stamp);
+    color: var(--paper);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 10px;
+    margin-bottom: 14px;
+    transform: rotate(-1deg);
+  }
+
+  .script { white-space: pre-line; font-size: 15px; color: var(--ink); margin: 0 0 16px; }
+  .caption { font-size: 14px; color: var(--ink-soft); margin: 0 0 10px; font-style: italic; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+  .tag { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--ink-soft); }
+
+  .copy-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    background: transparent;
+    border: 1px solid var(--ink);
+    padding: 8px 14px;
+    cursor: pointer;
+    color: var(--ink);
+  }
+
+  .copy-btn:hover { background: var(--ink); color: var(--paper); }
+
+  footer { margin-top: 60px; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--ink-soft); }
+
+  @media (max-width: 480px) {
+    .wrap { padding: 32px 18px 72px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1 class="wordmark">Content<span>Spark</span></h1>
+      <p class="tagline">Enter a niche, get a set of hooks, scripts, and captions ready for your next faceless short.</p>
+    </header>
+
+    <form id="generate-form">
+      <div class="row">
+        <div class="field">
+          <label for="niche">Your niche</label>
+          <input type="text" id="niche" name="niche" placeholder="true crime, unsolved disappearances" required />
+        </div>
+        <div class="field" style="max-width:160px;">
+          <label for="count">How many ideas</label>
+          <select id="count" name="count">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+          </select>
+        </div>
+      </div>
+      <button type="submit" id="submit-btn">Generate ideas</button>
+    </form>
+
+    <p class="status" id="status"></p>
+
+    <div id="results-wrap">
+      <div class="empty" id="empty-state">No files yet — enter a niche above and generate your first set of ideas.</div>
+      <div class="results" id="results" style="display:none;"></div>
+    </div>
+
+    <footer>Content Spark — built for faceless creators.</footer>
+  </div>
+
+  <script>
+    const form = document.getElementById('generate-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const statusEl = document.getElementById('status');
+    const emptyState = document.getElementById('empty-state');
+    const resultsEl = document.getElementById('results');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const niche = document.getElementById('niche').value.trim();
+      const count = document.getElementById('count').value;
+      if (!niche) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Generating…';
+      statusEl.textContent = '';
+      statusEl.classList.remove('error');
+
+      try {
+        const res = await fetch('/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ niche, count }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Something went wrong.');
+
+        renderResults(data.ideas || []);
+        statusEl.textContent = data.ideas.length + ' ideas generated.';
+      } catch (err) {
+        statusEl.textContent = err.message;
+        statusEl.classList.add('error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Generate ideas';
+      }
+    });
+
+    function renderResults(ideas) {
+      if (!ideas.length) return;
+      emptyState.style.display = 'none';
+      resultsEl.style.display = 'grid';
+      resultsEl.innerHTML = '';
+
+      ideas.forEach((idea, i) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+
+        const tags = (idea.hashtags || []).map(function(t) {
+          return '<span class="tag">#' + t.replace(/^#/, '') + '</span>';
+        }).join(' ');
+
+        card.innerHTML =
+          '<div class="file-label">FILE ' + String(i + 1).padStart(2, '0') + '</div>' +
+          '<h2>' + escapeHtml(idea.title || '') + '</h2>' +
+          '<div class="hook">' + escapeHtml(idea.hook || '') + '</div>' +
+          '<p class="script">' + escapeHtml(idea.script || '') + '</p>' +
+          '<p class="caption">' + escapeHtml(idea.caption || '') + '</p>' +
+          '<div class="tags">' + tags + '</div>' +
+          '<button class="copy-btn" type="button">Copy script</button>';
+
+        const copyBtn = card.querySelector('.copy-btn');
+        copyBtn.addEventListener('click', function() {
+          const text = idea.title + '\n\nHook: ' + idea.hook + '\n\n' + idea.script + '\n\n' +
+            idea.caption + '\n\n' + (idea.hashtags || []).map(function(t){ return '#' + t.replace(/^#/, ''); }).join(' ');
+          navigator.clipboard.writeText(text).then(function() {
+            copyBtn.textContent = 'Copied';
+            setTimeout(function() { copyBtn.textContent = 'Copy script'; }, 1500);
+          });
+        });
+
+        resultsEl.appendChild(card);
+      });
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>
