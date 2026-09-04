@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>RedFileCo — video ideas, on file</title>
+<title>Content Spark — video ideas, on file</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -198,7 +199,7 @@
 <body>
   <div class="wrap">
     <header>
-      <h1 class="wordmark">RedFileCo</h1>
+      <h1 class="wordmark">Content<span>Spark</span></h1>
       <p class="tagline">Enter a niche, get a set of hooks, scripts, and captions ready for your next faceless short.</p>
     </header>
 
@@ -214,6 +215,14 @@
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="15">15</option>
+          </select>
+        </div>
+        <div class="field" style="max-width:160px;">
+          <label for="language">Language</label>
+          <select id="language" name="language">
+            <option value="english">English</option>
+            <option value="hindi">Hindi</option>
+            <option value="hinglish">Hinglish</option>
           </select>
         </div>
       </div>
@@ -241,6 +250,7 @@
       e.preventDefault();
       const niche = document.getElementById('niche').value.trim();
       const count = document.getElementById('count').value;
+      const language = document.getElementById('language').value;
       if (!niche) return;
 
       submitBtn.disabled = true;
@@ -252,7 +262,7 @@
         const res = await fetch('/api/generate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ niche, count }),
+          body: JSON.stringify({ niche, count, language }),
         });
 
         const data = await res.json();
