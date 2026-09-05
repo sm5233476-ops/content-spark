@@ -269,6 +269,7 @@
         if (!res.ok) throw new Error(data.error || 'Something went wrong.');
 
         renderResults(data.ideas || []);
+        currentLanguage = language;
         statusEl.textContent = data.ideas.length + ' ideas generated.';
       } catch (err) {
         statusEl.textContent = err.message;
@@ -278,6 +279,8 @@
         submitBtn.textContent = 'Generate ideas';
       }
     });
+
+    let currentLanguage = 'english';
 
     function renderResults(ideas) {
       if (!ideas.length) return;
@@ -300,7 +303,10 @@
           '<p class="script">' + escapeHtml(idea.script || '') + '</p>' +
           '<p class="caption">' + escapeHtml(idea.caption || '') + '</p>' +
           '<div class="tags">' + tags + '</div>' +
-          '<button class="copy-btn" type="button">Copy script</button>';
+          '<div style="display:flex; gap:10px;">' +
+          '<button class="copy-btn" type="button">Copy script</button>' +
+          '<button class="copy-btn play-btn" type="button">🔊 Play</button>' +
+          '</div>';
 
         const copyBtn = card.querySelector('.copy-btn');
         copyBtn.addEventListener('click', function() {
@@ -313,6 +319,32 @@
         });
 
         resultsEl.appendChild(card);
+
+        const playBtn = card.querySelector('.play-btn');
+        playBtn.addEventListener('click', function() {
+          if (playBtn.dataset.playing === 'true') {
+            window.speechSynthesis.cancel();
+            playBtn.textContent = '🔊 Play';
+            playBtn.dataset.playing = 'false';
+            return;
+          }
+          document.querySelectorAll('.play-btn').forEach(function(b) {
+            b.textContent = '🔊 Play';
+            b.dataset.playing = 'false';
+          });
+          window.speechSynthesis.cancel();
+
+          const utterance = new SpeechSynthesisUtterance(idea.script);
+          const langMap = { english: 'en-US', hindi: 'hi-IN', hinglish: 'hi-IN' };
+          utterance.lang = langMap[currentLanguage] || 'en-US';
+          utterance.onend = function() {
+            playBtn.textContent = '🔊 Play';
+            playBtn.dataset.playing = 'false';
+          };
+          window.speechSynthesis.speak(utterance);
+          playBtn.textContent = '⏸ Stop';
+          playBtn.dataset.playing = 'true';
+        });
       });
     }
 
