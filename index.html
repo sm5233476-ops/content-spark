@@ -191,6 +191,64 @@
 
   footer { margin-top: 60px; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--ink-soft); }
 
+  .tabs { display: flex; gap: 4px; margin-bottom: 28px; border-bottom: 2px solid var(--ink); }
+
+  .tab-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    background: transparent;
+    border: none;
+    padding: 10px 18px;
+    cursor: pointer;
+    color: var(--ink-soft);
+  }
+
+  .tab-btn.active { color: var(--ink); border-bottom: 3px solid var(--stamp); margin-bottom: -2px; }
+
+  textarea {
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    padding: 12px;
+    background: var(--folder);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    resize: vertical;
+  }
+
+  textarea:focus { outline: none; border-color: var(--stamp); }
+
+  #voice-btn {
+    margin-top: 20px;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--paper);
+    background: var(--stamp);
+    border: none;
+    padding: 14px 28px;
+    cursor: pointer;
+  }
+
+  #voice-btn:hover:not(:disabled) { background: var(--stamp-dark); }
+  #voice-btn:disabled { background: var(--ink-soft); cursor: default; }
+
+  #voice-audio { width: 100%; margin-top: 20px; }
+
+  #voice-download {
+    display: inline-block;
+    margin-top: 14px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    padding: 8px 14px;
+    text-decoration: none;
+  }
+
+  #voice-download:hover { background: var(--ink); color: var(--paper); }
+
   @media (max-width: 480px) {
     .wrap { padding: 32px 18px 72px; }
   }
@@ -203,6 +261,12 @@
       <p class="tagline">Enter a niche, get a set of hooks, scripts, and captions ready for your next faceless short.</p>
     </header>
 
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="ideas" type="button">Ideas</button>
+      <button class="tab-btn" data-tab="voice" type="button">Voice</button>
+    </div>
+
+    <div id="tab-ideas" class="tab-panel">
     <form id="generate-form">
       <div class="row">
         <div class="field">
@@ -235,11 +299,77 @@
       <div class="empty" id="empty-state">No files yet — enter a niche above and generate your first set of ideas.</div>
       <div class="results" id="results" style="display:none;"></div>
     </div>
+    </div>
+
+    <div id="tab-voice" class="tab-panel" style="display:none;">
+      <div class="field">
+        <label for="voice-text">Paste any script</label>
+        <textarea id="voice-text" rows="6" placeholder="Paste the script you want turned into a voiceover..."></textarea>
+      </div>
+      <button type="button" id="voice-btn">Generate voice</button>
+      <p class="status" id="voice-status"></p>
+      <div id="voice-result" style="display:none;">
+        <audio id="voice-audio" controls></audio>
+        <a id="voice-download" download="voiceover.wav">Download audio</a>
+      </div>
+    </div>
 
     <footer>Content Spark — built for faceless creators.</footer>
   </div>
 
   <script>
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabPanels = { ideas: document.getElementById('tab-ideas'), voice: document.getElementById('tab-voice') };
+    tabButtons.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        tabButtons.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        Object.keys(tabPanels).forEach(function(key) {
+          tabPanels[key].style.display = key === btn.dataset.tab ? 'block' : 'none';
+        });
+      });
+    });
+
+    const voiceBtn = document.getElementById('voice-btn');
+    const voiceText = document.getElementById('voice-text');
+    const voiceStatus = document.getElementById('voice-status');
+    const voiceResult = document.getElementById('voice-result');
+    const voiceAudio = document.getElementById('voice-audio');
+    const voiceDownload = document.getElementById('voice-download');
+
+    voiceBtn.addEventListener('click', async function() {
+      const text = voiceText.value.trim();
+      if (!text) return;
+
+      voiceBtn.disabled = true;
+      voiceBtn.textContent = 'Generating…';
+      voiceStatus.textContent = '';
+      voiceStatus.classList.remove('error');
+      voiceResult.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/tts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: text }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Something went wrong.');
+
+        voiceAudio.src = data.audio;
+        voiceDownload.href = data.audio;
+        voiceResult.style.display = 'block';
+        voiceStatus.textContent = 'Voice generated.';
+      } catch (err) {
+        voiceStatus.textContent = err.message;
+        voiceStatus.classList.add('error');
+      } finally {
+        voiceBtn.disabled = false;
+        voiceBtn.textContent = 'Generate voice';
+      }
+    });
+
     const form = document.getElementById('generate-form');
     const submitBtn = document.getElementById('submit-btn');
     const statusEl = document.getElementById('status');
