@@ -306,6 +306,19 @@
         <label for="voice-text">Paste any script</label>
         <textarea id="voice-text" rows="6" placeholder="Paste the script you want turned into a voiceover..."></textarea>
       </div>
+      <div class="field" style="max-width:260px; margin-top:16px;">
+        <label for="voice-style">Voice style</label>
+        <select id="voice-style" name="voice-style">
+          <option value="Kore">Kore — Confident (default)</option>
+          <option value="Charon">Charon — Deep, narrator</option>
+          <option value="Algenib">Algenib — Heavy, gravelly</option>
+          <option value="Fenrir">Fenrir — Dramatic, suspense</option>
+          <option value="Sulafat">Sulafat — Warm, sweet</option>
+          <option value="Achernar">Achernar — Soft, gentle</option>
+          <option value="Puck">Puck — Upbeat, energetic</option>
+          <option value="Gacrux">Gacrux — Mature, steady</option>
+        </select>
+      </div>
       <button type="button" id="voice-btn">Generate voice</button>
       <p class="status" id="voice-status"></p>
       <div id="voice-result" style="display:none;">
@@ -339,6 +352,7 @@
 
     voiceBtn.addEventListener('click', async function() {
       const text = voiceText.value.trim();
+      const voiceStyle = document.getElementById('voice-style').value;
       if (!text) return;
 
       voiceBtn.disabled = true;
@@ -351,7 +365,7 @@
         const res = await fetch('/api/tts', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: text }),
+          body: JSON.stringify({ text: text, voice: voiceStyle }),
         });
 
         const data = await res.json();
