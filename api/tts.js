@@ -1,7 +1,9 @@
 const MODEL = 'gemini-3.1-flash-tts-preview';
 const MAX_ATTEMPTS = 3;
 
-async function callTTS(text, apiKey) {
+const ALLOWED_VOICES = ['Kore', 'Charon', 'Algenib', 'Fenrir', 'Sulafat', 'Achernar', 'Puck', 'Gacrux'];
+
+async function callTTS(text, apiKey, voiceName) {
   let lastError = null;
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
@@ -19,7 +21,7 @@ async function callTTS(text, apiKey) {
             generationConfig: {
               responseModalities: ['AUDIO'],
               speechConfig: {
-                voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Kore' } },
+                voiceConfig: { prebuiltVoiceConfig: { voiceName: voiceName } },
               },
             },
           }),
@@ -78,7 +80,7 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const { text } = req.body || {};
+  const { text, voice } = req.body || {};
 
   if (!text || typeof text !== 'string' || !text.trim()) {
     res.status(400).json({ error: 'Please paste some text to convert to voice.' });
@@ -93,8 +95,10 @@ module.exports = async function handler(req, res) {
     return;
   }
 
+  const chosenVoice = ALLOWED_VOICES.includes(voice) ? voice : 'Kore';
+
   try {
-    const response = await callTTS(text.trim(), apiKey);
+    const response = await callTTS(text.trim(), apiKey, chosenVoice);
     const data = await response.json();
     const part =
       data &&
