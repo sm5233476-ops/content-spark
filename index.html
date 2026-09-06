@@ -4,61 +4,148 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Content Spark — video ideas, on file</title>
+<title>Content Spark — ideas, scripts and voiceovers, on file</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --paper: #EDE7D8;
-    --folder: #DED0A8;
-    --ink: #201F1B;
-    --ink-soft: #55524A;
-    --stamp: #A5342A;
-    --stamp-dark: #7C2620;
-    --line: #C7BA92;
+    --board: #3B2A1E;
+    --card: #F6EEDD;
+    --card-alt: #EFE0BE;
+    --ink: #241B12;
+    --ink-soft: #6E5D46;
+    --pin: #C0392B;
+    --pin-dark: #8F2A1E;
+    --line: #CBB98F;
+    --cream: #F5EFE0;
   }
 
   * { box-sizing: border-box; }
 
   body {
     margin: 0;
-    background: var(--paper);
-    color: var(--ink);
+    min-height: 100vh;
+    position: relative;
+    background-color: var(--board);
+    background-image:
+      radial-gradient(ellipse at center, rgba(0,0,0,0) 45%, rgba(0,0,0,0.4) 100%),
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 2px, transparent 2px, transparent 7px);
+    color: var(--cream);
     font-family: 'Inter', sans-serif;
     line-height: 1.5;
   }
 
-  .wrap {
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 48px 24px 96px;
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27300%27%20height%3D%27300%27%3E%0A%3Cg%20transform%3D%27rotate%28-7%2060%2065%29%27%3E%0A%3Crect%20x%3D%2720%27%20y%3D%2720%27%20width%3D%2780%27%20height%3D%2795%27%20fill%3D%27%23F6EEDD%27%20stroke%3D%27%23241B12%27%20stroke-width%3D%271.5%27/%3E%0A%3Crect%20x%3D%2728%27%20y%3D%2728%27%20width%3D%2764%27%20height%3D%279%27%20fill%3D%27%23241B12%27%20opacity%3D%270.6%27/%3E%0A%3Crect%20x%3D%2728%27%20y%3D%2744%27%20width%3D%2764%27%20height%3D%273%27%20fill%3D%27%23241B12%27%20opacity%3D%270.35%27/%3E%0A%3Crect%20x%3D%2728%27%20y%3D%2752%27%20width%3D%2764%27%20height%3D%273%27%20fill%3D%27%23241B12%27%20opacity%3D%270.35%27/%3E%0A%3Crect%20x%3D%2728%27%20y%3D%2760%27%20width%3D%2748%27%20height%3D%273%27%20fill%3D%27%23241B12%27%20opacity%3D%270.35%27/%3E%0A%3Crect%20x%3D%2728%27%20y%3D%2772%27%20width%3D%2764%27%20height%3D%273%27%20fill%3D%27%23241B12%27%20opacity%3D%270.35%27/%3E%0A%3Crect%20x%3D%2728%27%20y%3D%2780%27%20width%3D%2756%27%20height%3D%273%27%20fill%3D%27%23241B12%27%20opacity%3D%270.35%27/%3E%0A%3Crect%20x%3D%2728%27%20y%3D%2788%27%20width%3D%2764%27%20height%3D%273%27%20fill%3D%27%23241B12%27%20opacity%3D%270.35%27/%3E%0A%3Crect%20x%3D%2728%27%20y%3D%2796%27%20width%3D%2740%27%20height%3D%273%27%20fill%3D%27%23241B12%27%20opacity%3D%270.35%27/%3E%0A%3C/g%3E%0A%3Cg%20transform%3D%27rotate%286%20230%2050%29%27%3E%0A%3Crect%20x%3D%27190%27%20y%3D%2720%27%20width%3D%2780%27%20height%3D%2760%27%20fill%3D%27%238A7458%27%20stroke%3D%27%23241B12%27%20stroke-width%3D%271.5%27/%3E%0A%3Ccircle%20cx%3D%27222%27%20cy%3D%2746%27%20r%3D%2713%27%20fill%3D%27none%27%20stroke%3D%27%23C0392B%27%20stroke-width%3D%272.5%27/%3E%0A%3Cline%20x1%3D%27230%27%20y1%3D%2760%27%20x2%3D%27255%27%20y2%3D%2772%27%20stroke%3D%27%23C0392B%27%20stroke-width%3D%272%27/%3E%0A%3C/g%3E%0A%3Cg%20transform%3D%27rotate%284%20155%20205%29%27%3E%0A%3Crect%20x%3D%27130%27%20y%3D%27180%27%20width%3D%2750%27%20height%3D%2750%27%20fill%3D%27%23EFE0BE%27%20stroke%3D%27%23241B12%27%20stroke-width%3D%271.2%27/%3E%0A%3Crect%20x%3D%27136%27%20y%3D%27188%27%20width%3D%2738%27%20height%3D%276%27%20fill%3D%27%23241B12%27%20opacity%3D%270.5%27/%3E%0A%3Crect%20x%3D%27136%27%20y%3D%27200%27%20width%3D%2738%27%20height%3D%272.5%27%20fill%3D%27%23241B12%27%20opacity%3D%270.3%27/%3E%0A%3Crect%20x%3D%27136%27%20y%3D%27207%27%20width%3D%2730%27%20height%3D%272.5%27%20fill%3D%27%23241B12%27%20opacity%3D%270.3%27/%3E%0A%3Crect%20x%3D%27136%27%20y%3D%27214%27%20width%3D%2738%27%20height%3D%272.5%27%20fill%3D%27%23241B12%27%20opacity%3D%270.3%27/%3E%0A%3C/g%3E%0A%3Cg%20transform%3D%27rotate%28-10%2090%20210%29%27%3E%0A%3Ccircle%20cx%3D%2790%27%20cy%3D%27210%27%20r%3D%2726%27%20fill%3D%27none%27%20stroke%3D%27%23C0392B%27%20stroke-width%3D%272%27/%3E%0A%3Ccircle%20cx%3D%2790%27%20cy%3D%27210%27%20r%3D%2719%27%20fill%3D%27none%27%20stroke%3D%27%23C0392B%27%20stroke-width%3D%271.5%27/%3E%0A%3Cline%20x1%3D%2770%27%20y1%3D%27210%27%20x2%3D%27110%27%20y2%3D%27210%27%20stroke%3D%27%23C0392B%27%20stroke-width%3D%272%27/%3E%0A%3Cline%20x1%3D%2790%27%20y1%3D%27197%27%20x2%3D%2790%27%20y2%3D%27223%27%20stroke%3D%27%23C0392B%27%20stroke-width%3D%271%27/%3E%0A%3C/g%3E%0A%3Cline%20x1%3D%27205%27%20y1%3D%27150%27%20x2%3D%27235%27%20y2%3D%27180%27%20stroke%3D%27%23C0392B%27%20stroke-width%3D%273%27/%3E%0A%3Cline%20x1%3D%27235%27%20y1%3D%27150%27%20x2%3D%27205%27%20y2%3D%27180%27%20stroke%3D%27%23C0392B%27%20stroke-width%3D%273%27/%3E%0A%3Ccircle%20cx%3D%2760%27%20cy%3D%2715%27%20r%3D%274%27%20fill%3D%27%23C0392B%27/%3E%0A%3Ccircle%20cx%3D%27230%27%20cy%3D%2715%27%20r%3D%274%27%20fill%3D%27%23C0392B%27/%3E%0A%3Ccircle%20cx%3D%2790%27%20cy%3D%27182%27%20r%3D%274%27%20fill%3D%27%23C0392B%27/%3E%0A%3Ccircle%20cx%3D%27155%27%20cy%3D%27177%27%20r%3D%274%27%20fill%3D%27%23C0392B%27/%3E%0A%3Cline%20x1%3D%2760%27%20y1%3D%2715%27%20x2%3D%27155%27%20y2%3D%27177%27%20stroke%3D%27%23C9A66B%27%20stroke-width%3D%271%27/%3E%0A%3Cline%20x1%3D%27230%27%20y1%3D%2715%27%20x2%3D%2790%27%20y2%3D%27182%27%20stroke%3D%27%23C9A66B%27%20stroke-width%3D%271%27/%3E%0A%3C/svg%3E");
+    background-repeat: repeat;
+    opacity: 0.07;
+    pointer-events: none;
+    z-index: 0;
   }
 
-  header { margin-bottom: 40px; }
+  .wrap { max-width: 800px; margin: 0 auto; padding: 56px 24px 96px; position: relative; z-index: 1; }
+
+  @keyframes fadeSlideDown {
+    from { opacity: 0; transform: translateY(-14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(16px) scale(0.94) rotate(var(--rot, 0deg)); }
+    to { opacity: 1; transform: translateY(0) scale(1) rotate(var(--rot, 0deg)); }
+  }
+
+  @keyframes pulse { 0%, 100% { opacity: 0.75; } 50% { opacity: 1; } }
+
+  header { margin-bottom: 32px; animation: fadeSlideDown 0.6s ease both; }
 
   .wordmark {
     font-family: 'Space Mono', monospace;
     font-weight: 700;
-    font-size: clamp(28px, 6vw, 40px);
+    font-size: clamp(30px, 6vw, 44px);
     letter-spacing: -0.5px;
     margin: 0;
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.7);
   }
 
-  .wordmark span { color: var(--stamp); }
-
-  .tagline {
-    margin: 10px 0 0;
-    max-width: 46ch;
-    color: var(--ink-soft);
-    font-size: 16px;
+  .wordmark::before {
+    content: "";
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--pin);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5), inset 0 -2px 2px rgba(0,0,0,0.35);
+    flex-shrink: 0;
   }
 
-  form {
-    border-top: 2px solid var(--ink);
-    border-bottom: 2px solid var(--ink);
-    padding: 28px 0;
-    margin-bottom: 40px;
+  .wordmark span { color: var(--pin); }
+
+  .tagline { margin: 10px 0 0; max-width: 48ch; color: rgba(245,239,221,0.75); font-size: 16px; text-shadow: 0 1px 4px rgba(0,0,0,0.6); }
+
+  .free-note {
+    display: inline-block;
+    margin-top: 16px;
+    background: #F2E2A8;
+    color: #4A3A10;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 12px;
+    transform: rotate(-2deg);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.35);
+  }
+
+  .tabs { display: flex; gap: 8px; margin-bottom: 28px; animation: fadeSlideDown 0.6s ease both; animation-delay: 0.05s; }
+
+  .tab-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    background: rgba(245,239,221,0.08);
+    border: 1px solid rgba(245,239,221,0.22);
+    color: rgba(245,239,221,0.75);
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px 4px 0 0;
+    transition: all 0.2s ease;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  }
+
+  .tab-btn:hover { background: rgba(245,239,221,0.15); color: var(--cream); }
+
+  .tab-btn.active { background: var(--card); color: var(--ink); border-color: var(--card); }
+
+  .panel-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0) 40%), var(--card);
+    color: var(--ink);
+    padding: 32px 28px 28px;
+    position: relative;
+    box-shadow: 0 12px 26px rgba(0,0,0,0.35), 0 2px 6px rgba(0,0,0,0.25);
+    transform: rotate(-0.3deg);
+    margin-bottom: 32px;
+    animation: fadeSlideDown 0.6s ease both;
+    animation-delay: 0.1s;
+  }
+
+  .panel-card::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--pin);
+    box-shadow: 0 3px 5px rgba(0,0,0,0.5), inset 0 -2px 2px rgba(0,0,0,0.3);
   }
 
   .field { margin-bottom: 20px; }
@@ -71,10 +158,10 @@
     margin-bottom: 6px;
   }
 
-  input[type="text"], select {
+  input[type="text"], select, textarea {
     width: 100%;
     font-family: 'Inter', sans-serif;
-    font-size: 18px;
+    font-size: 17px;
     padding: 10px 2px;
     background: transparent;
     border: none;
@@ -82,94 +169,117 @@
     color: var(--ink);
   }
 
-  input[type="text"]:focus, select:focus {
-    outline: none;
-    border-bottom-color: var(--stamp);
-  }
+  textarea { padding: 12px; border: 1px solid var(--line); resize: vertical; }
+
+  input[type="text"]:focus, select:focus, textarea:focus { outline: none; border-color: var(--pin); }
 
   .row { display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-end; }
   .row .field { flex: 1; min-width: 160px; margin-bottom: 0; }
 
-  button[type="submit"] {
-    margin-top: 24px;
+  button[type="submit"], #voice-btn {
+    margin-top: 22px;
     font-family: 'Space Mono', monospace;
     font-weight: 700;
     font-size: 15px;
-    color: var(--paper);
-    background: var(--stamp);
+    color: var(--cream);
+    background: var(--pin);
     border: none;
+    border-radius: 3px;
     padding: 14px 28px;
     cursor: pointer;
     letter-spacing: 0.3px;
-    transition: transform 0.15s ease, background 0.15s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
   }
 
-  button[type="submit"]:hover:not(:disabled) {
-    background: var(--stamp-dark);
-    transform: rotate(-1deg);
+  button[type="submit"]:hover:not(:disabled), #voice-btn:hover:not(:disabled) {
+    background: var(--pin-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.35);
   }
 
-  button[type="submit"]:disabled { background: var(--ink-soft); cursor: default; }
+  button[type="submit"]:active:not(:disabled), #voice-btn:active:not(:disabled) { transform: translateY(0); }
+
+  button[type="submit"]:disabled, #voice-btn:disabled {
+    background: rgba(36,27,18,0.3);
+    color: rgba(36,27,18,0.6);
+    cursor: default;
+    animation: pulse 1.2s ease-in-out infinite;
+  }
 
   .status {
     font-family: 'Space Mono', monospace;
     font-size: 14px;
-    color: var(--ink-soft);
+    color: rgba(245,239,221,0.75);
     min-height: 20px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
 
-  .status.error { color: var(--stamp); }
+  .status.error { color: #FF8A75; }
 
   .empty {
-    border: 2px dashed var(--line);
-    padding: 40px 24px;
+    border: 2px dashed rgba(245,239,221,0.25);
+    background: rgba(245,239,221,0.05);
+    border-radius: 4px;
+    padding: 44px 24px;
     text-align: center;
-    color: var(--ink-soft);
+    color: rgba(245,239,221,0.55);
     font-size: 15px;
   }
 
-  .results { display: grid; gap: 28px; }
+  .results { display: grid; gap: 32px; margin-top: 4px; }
 
   .card {
-    background: var(--folder);
-    padding: 24px 24px 20px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.3), rgba(255,255,255,0) 40%), var(--card-alt);
+    color: var(--ink);
+    padding: 28px 24px 22px;
     position: relative;
-    border: 1px solid var(--line);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.32), 0 2px 6px rgba(0,0,0,0.22);
+    border-radius: 2px;
+    transform: rotate(var(--rot, 0deg));
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    animation: cardIn 0.5s ease both;
   }
 
-  .card:nth-child(3n+1) { transform: rotate(-0.4deg); }
-  .card:nth-child(3n+2) { transform: rotate(0.3deg); }
-  .card:nth-child(3n)   { transform: rotate(-0.2deg); }
+  .card:hover {
+    transform: translateY(-6px) rotate(var(--rot, 0deg));
+    box-shadow: 0 16px 30px rgba(0,0,0,0.4), 0 4px 10px rgba(0,0,0,0.3);
+  }
 
-  .card::after {
+  .card::before {
     content: "";
     position: absolute;
-    top: 0; right: 0;
-    width: 0; height: 0;
-    border-style: solid;
-    border-width: 0 22px 22px 0;
-    border-color: transparent var(--paper) transparent transparent;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--pin);
+    box-shadow: 0 3px 5px rgba(0,0,0,0.5), inset 0 -2px 2px rgba(0,0,0,0.3);
   }
 
   .file-label {
     font-family: 'Space Mono', monospace;
     font-size: 12px;
     color: var(--ink-soft);
-    margin-bottom: 8px;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
   }
 
   .card h2 { font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 600; margin: 0 0 10px; }
 
   .hook {
     display: inline-block;
-    background: var(--stamp);
-    color: var(--paper);
+    background: var(--pin);
+    color: var(--cream);
     font-size: 13px;
-    font-weight: 600;
-    padding: 4px 10px;
+    font-weight: 700;
+    padding: 5px 12px;
     margin-bottom: 14px;
-    transform: rotate(-1deg);
+    border-radius: 2px;
+    box-shadow: 1px 2px 3px rgba(0,0,0,0.25);
+    transform: rotate(-1.5deg);
   }
 
   .script { white-space: pre-line; font-size: 15px; color: var(--ink); margin: 0 0 16px; }
@@ -182,57 +292,24 @@
     font-size: 13px;
     background: transparent;
     border: 1px solid var(--ink);
+    border-radius: 2px;
     padding: 8px 14px;
     cursor: pointer;
     color: var(--ink);
+    transition: all 0.15s ease;
   }
 
-  .copy-btn:hover { background: var(--ink); color: var(--paper); }
+  .copy-btn:hover { background: var(--ink); color: var(--cream); transform: translateY(-1px); }
 
-  footer { margin-top: 60px; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--ink-soft); }
-
-  .tabs { display: flex; gap: 4px; margin-bottom: 28px; border-bottom: 2px solid var(--ink); }
-
-  .tab-btn {
+  footer {
+    margin-top: 56px;
     font-family: 'Space Mono', monospace;
-    font-size: 14px;
-    font-weight: 700;
-    background: transparent;
-    border: none;
-    padding: 10px 18px;
-    cursor: pointer;
-    color: var(--ink-soft);
+    font-size: 12px;
+    color: rgba(245,239,221,0.4);
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px dashed rgba(245,239,221,0.15);
   }
-
-  .tab-btn.active { color: var(--ink); border-bottom: 3px solid var(--stamp); margin-bottom: -2px; }
-
-  textarea {
-    width: 100%;
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    padding: 12px;
-    background: var(--folder);
-    border: 1px solid var(--line);
-    color: var(--ink);
-    resize: vertical;
-  }
-
-  textarea:focus { outline: none; border-color: var(--stamp); }
-
-  #voice-btn {
-    margin-top: 20px;
-    font-family: 'Space Mono', monospace;
-    font-weight: 700;
-    font-size: 15px;
-    color: var(--paper);
-    background: var(--stamp);
-    border: none;
-    padding: 14px 28px;
-    cursor: pointer;
-  }
-
-  #voice-btn:hover:not(:disabled) { background: var(--stamp-dark); }
-  #voice-btn:disabled { background: var(--ink-soft); cursor: default; }
 
   #voice-audio { width: 100%; margin-top: 20px; }
 
@@ -243,14 +320,17 @@
     font-size: 13px;
     color: var(--ink);
     border: 1px solid var(--ink);
+    border-radius: 2px;
     padding: 8px 14px;
     text-decoration: none;
+    transition: all 0.15s ease;
   }
 
-  #voice-download:hover { background: var(--ink); color: var(--paper); }
+  #voice-download:hover { background: var(--ink); color: var(--cream); }
 
   @media (max-width: 480px) {
-    .wrap { padding: 32px 18px 72px; }
+    .wrap { padding: 36px 16px 72px; }
+    .panel-card, .card { padding-left: 20px; padding-right: 20px; }
   }
 </style>
 </head>
@@ -258,7 +338,8 @@
   <div class="wrap">
     <header>
       <h1 class="wordmark">Content<span>Spark</span></h1>
-      <p class="tagline">Enter a niche, get a set of hooks, scripts, and captions ready for your next faceless short.</p>
+      <p class="tagline">Ideas, scripts, and voiceovers for your next faceless short — all pinned in one place.</p>
+      <div class="free-note">No credits. No paywalls. Every tool here is free.</div>
     </header>
 
     <div class="tabs">
@@ -267,6 +348,7 @@
     </div>
 
     <div id="tab-ideas" class="tab-panel">
+    <div class="panel-card">
     <form id="generate-form">
       <div class="row">
         <div class="field">
@@ -292,6 +374,7 @@
       </div>
       <button type="submit" id="submit-btn">Generate ideas</button>
     </form>
+    </div>
 
     <p class="status" id="status"></p>
 
@@ -302,6 +385,7 @@
     </div>
 
     <div id="tab-voice" class="tab-panel" style="display:none;">
+    <div class="panel-card">
       <div class="field">
         <label for="voice-text">Paste any script</label>
         <textarea id="voice-text" rows="6" placeholder="Paste the script you want turned into a voiceover..."></textarea>
@@ -325,6 +409,7 @@
         <audio id="voice-audio" controls></audio>
         <a id="voice-download" download="voiceover.wav">Download audio</a>
       </div>
+    </div>
     </div>
 
     <footer>Content Spark — built for faceless creators.</footer>
@@ -435,6 +520,9 @@
       ideas.forEach((idea, i) => {
         const card = document.createElement('div');
         card.className = 'card';
+        const rot = (i % 2 === 0 ? -1 : 1) * (0.4 + (i % 3) * 0.3);
+        card.style.setProperty('--rot', rot + 'deg');
+        card.style.animationDelay = (i * 0.08) + 's';
 
         const tags = (idea.hashtags || []).map(function(t) {
           return '<span class="tag">#' + t.replace(/^#/, '') + '</span>';
