@@ -507,7 +507,7 @@
     const imageOutput = document.getElementById('image-output');
     const imageDownload = document.getElementById('image-download');
 
-    imageBtn.addEventListener('click', async function() {
+    imageBtn.addEventListener('click', function() {
       const prompt = imagePrompt.value.trim();
       if (!prompt) return;
 
@@ -517,27 +517,28 @@
       imageStatus.classList.remove('error');
       imageResult.style.display = 'none';
 
-      try {
-        const res = await fetch('/api/image', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ prompt: prompt }),
-        });
+      const seed = Math.floor(Math.random() * 1000000);
+      const url = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(prompt) +
+        '?width=1024&height=576&nologo=true&seed=' + seed;
 
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Something went wrong.');
-
-        imageOutput.src = data.image;
-        imageDownload.href = data.image;
+      const preload = new Image();
+      preload.onload = function() {
+        imageOutput.src = url;
+        imageDownload.href = url;
+        imageDownload.target = '_blank';
+        imageDownload.rel = 'noopener';
         imageResult.style.display = 'block';
         imageStatus.textContent = 'Image generated.';
-      } catch (err) {
-        imageStatus.textContent = err.message;
-        imageStatus.classList.add('error');
-      } finally {
         imageBtn.disabled = false;
         imageBtn.textContent = 'Generate image';
-      }
+      };
+      preload.onerror = function() {
+        imageStatus.textContent = 'Could not generate the image right now. Please try again.';
+        imageStatus.classList.add('error');
+        imageBtn.disabled = false;
+        imageBtn.textContent = 'Generate image';
+      };
+      preload.src = url;
     });
 
     const form = document.getElementById('generate-form');
