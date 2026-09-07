@@ -1,4 +1,4 @@
-const MODEL = 'gemini-3.1-flash-image';
+const MODEL = 'gemini-2.5-flash-image';
 const MAX_ATTEMPTS = 3;
 
 async function callImage(prompt, apiKey) {
