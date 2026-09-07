@@ -176,7 +176,7 @@
   .row { display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-end; }
   .row .field { flex: 1; min-width: 160px; margin-bottom: 0; }
 
-  button[type="submit"], #voice-btn {
+  button[type="submit"], #voice-btn, #image-btn {
     margin-top: 22px;
     font-family: 'Space Mono', monospace;
     font-weight: 700;
@@ -192,15 +192,15 @@
     transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
   }
 
-  button[type="submit"]:hover:not(:disabled), #voice-btn:hover:not(:disabled) {
+  button[type="submit"]:hover:not(:disabled), #voice-btn:hover:not(:disabled), #image-btn:hover:not(:disabled) {
     background: var(--pin-dark);
     transform: translateY(-2px);
     box-shadow: 0 6px 14px rgba(0,0,0,0.35);
   }
 
-  button[type="submit"]:active:not(:disabled), #voice-btn:active:not(:disabled) { transform: translateY(0); }
+  button[type="submit"]:active:not(:disabled), #voice-btn:active:not(:disabled), #image-btn:active:not(:disabled) { transform: translateY(0); }
 
-  button[type="submit"]:disabled, #voice-btn:disabled {
+  button[type="submit"]:disabled, #voice-btn:disabled, #image-btn:disabled {
     background: rgba(36,27,18,0.3);
     color: rgba(36,27,18,0.6);
     cursor: default;
@@ -328,6 +328,21 @@
 
   #voice-download:hover { background: var(--ink); color: var(--cream); }
 
+  #image-download {
+    display: inline-block;
+    margin-top: 14px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    border-radius: 2px;
+    padding: 8px 14px;
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+
+  #image-download:hover { background: var(--ink); color: var(--cream); }
+
   @media (max-width: 480px) {
     .wrap { padding: 36px 16px 72px; }
     .panel-card, .card { padding-left: 20px; padding-right: 20px; }
@@ -345,6 +360,7 @@
     <div class="tabs">
       <button class="tab-btn active" data-tab="ideas" type="button">Ideas</button>
       <button class="tab-btn" data-tab="voice" type="button">Voice</button>
+      <button class="tab-btn" data-tab="image" type="button">Image</button>
     </div>
 
     <div id="tab-ideas" class="tab-panel">
@@ -412,12 +428,27 @@
     </div>
     </div>
 
+    <div id="tab-image" class="tab-panel" style="display:none;">
+    <div class="panel-card">
+      <div class="field">
+        <label for="image-prompt">Describe the image</label>
+        <textarea id="image-prompt" rows="4" placeholder="a foggy abandoned house at night, cinematic lighting"></textarea>
+      </div>
+      <button type="button" id="image-btn">Generate image</button>
+      <p class="status" id="image-status"></p>
+      <div id="image-result" style="display:none;">
+        <img id="image-output" style="width:100%; margin-top:16px; border:1px solid var(--line);" />
+        <a id="image-download" download="image.png">Download image</a>
+      </div>
+    </div>
+    </div>
+
     <footer>Content Spark — built for faceless creators.</footer>
   </div>
 
   <script>
     const tabButtons = document.querySelectorAll('.tab-btn');
-    const tabPanels = { ideas: document.getElementById('tab-ideas'), voice: document.getElementById('tab-voice') };
+    const tabPanels = { ideas: document.getElementById('tab-ideas'), voice: document.getElementById('tab-voice'), image: document.getElementById('tab-image') };
     tabButtons.forEach(function(btn) {
       btn.addEventListener('click', function() {
         tabButtons.forEach(function(b) { b.classList.remove('active'); });
@@ -466,6 +497,46 @@
       } finally {
         voiceBtn.disabled = false;
         voiceBtn.textContent = 'Generate voice';
+      }
+    });
+
+    const imageBtn = document.getElementById('image-btn');
+    const imagePrompt = document.getElementById('image-prompt');
+    const imageStatus = document.getElementById('image-status');
+    const imageResult = document.getElementById('image-result');
+    const imageOutput = document.getElementById('image-output');
+    const imageDownload = document.getElementById('image-download');
+
+    imageBtn.addEventListener('click', async function() {
+      const prompt = imagePrompt.value.trim();
+      if (!prompt) return;
+
+      imageBtn.disabled = true;
+      imageBtn.textContent = 'Generating…';
+      imageStatus.textContent = '';
+      imageStatus.classList.remove('error');
+      imageResult.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/image', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt: prompt }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Something went wrong.');
+
+        imageOutput.src = data.image;
+        imageDownload.href = data.image;
+        imageResult.style.display = 'block';
+        imageStatus.textContent = 'Image generated.';
+      } catch (err) {
+        imageStatus.textContent = err.message;
+        imageStatus.classList.add('error');
+      } finally {
+        imageBtn.disabled = false;
+        imageBtn.textContent = 'Generate image';
       }
     });
 
